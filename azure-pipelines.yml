@@ -4,16 +4,38 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- main  # Change this to your branch
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    checkLatest: true
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: 'dist'  # Or wherever your build artifacts are
+    artifactName: 'drop'
+
+- script: |
+    echo "Author: $(Build.SourceVersionAuthor)"
+    echo "Author Email: $(Build.SourceVersionAuthorEmail)"
+    git config --global user.email "$(Build.SourceVersionAuthorEmail)"
+    git config --global user.name "$(Build.SourceVersionAuthor)"
+    git add .
+    git commit -m "Bump version [skip ci]"
+  displayName: 'Commit version bump'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.SourcesDirectory)'
+    artifactName: 'dist'
+

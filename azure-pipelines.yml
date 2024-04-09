@@ -34,7 +34,7 @@ jobs:
 
   - task: DownloadSecureFile@1
     inputs:
-      secureFile: 'github-pat'  # Use the name of the PAT file uploaded
+      secureFile: 'github-pat'  # Use the correct name of the PAT file uploaded
     displayName: 'Download PAT'
 
   - script: |

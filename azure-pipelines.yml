@@ -25,9 +25,9 @@ jobs:
 
   - script: |
       echo "Author: $(Build.SourceVersionAuthor)"
-      echo "Author Email: $(Build.SourceVersionAuthorEmail)"
-      git config --global user.email "$(Build.SourceVersionAuthorEmail)"
-      git config --global user.name "$(Build.SourceVersionAuthor)"
+      echo "Author Email: $(Build.RequestedForEmail)"
+      git config --global user.email "$(Build.RequestedForEmail)"
+      git config --global user.name "$(Build.RequestedFor)"
       git add .
       git commit -m "Bump version [skip ci]"
     displayName: 'Commit version bump'

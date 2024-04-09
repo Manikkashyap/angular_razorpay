@@ -13,17 +13,36 @@ jobs:
       versionSpec: '18.x'
       checkLatest: true
 
+  # Step 1: Install dependencies and run build
   - script: |
       npm install
       npm run build
     displayName: 'npm install and build'
 
+  # Step 2: Print the contents of package.json before prebuild
   - script: |
-      pwd
-    displayName: 'Print Working Directory'
-
-  - script: |
+      echo "Contents of package.json before prebuild:"
       cat package.json
+    displayName: 'Debug: Before Prebuild'
+
+  # Step 3: Run prebuild
+  - script: |
+      npm version patch --no-git-tag-version
+    displayName: 'npm version patch (prebuild)'
+
+  # Step 4: Print the contents of package.json after prebuild
+  - script: |
+      echo "Contents of package.json after prebuild:"
+      cat package.json
+    displayName: 'Debug: After Prebuild'
+
+  # Step 5: Check Git Status for Debugging
+  - script: |
+      git status
+    displayName: 'Check Git Status'
+
+  # Step 6: Commit changes if detected
+  - script: |
       echo "Author: $(Build.SourceVersionAuthor)"
       author_email=$(git log -1 --format='%ae' $(Build.SourceVersion))
       echo "Author Email: $author_email"
@@ -36,10 +55,4 @@ jobs:
       else
         echo "No changes to commit."
       fi
-      cat package.json
-    displayName: 'Commit, Push, and Debug'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     pathtoPublish: 'dist'
-#     artifactName: 'drop'
+    displayName: 'Commit and Push'

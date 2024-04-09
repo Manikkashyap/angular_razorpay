@@ -30,7 +30,11 @@ jobs:
       git config --global user.email "$author_email"
       git config --global user.name "$(Build.SourceVersionAuthor)"
       git add .
-      git commit -m "Bump version [skip ci]"
+      if [ -n "$(git status --porcelain)" ]; then
+        git commit -m "Bump version [skip ci]"
+      else
+        echo "No changes to commit."
+      fi
     displayName: 'Commit version bump'
 
   - task: PublishBuildArtifacts@1

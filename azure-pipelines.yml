@@ -18,12 +18,12 @@ jobs:
       npm run build
     displayName: 'npm install and build'
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'dist'
-      artifactName: 'drop'
+  - script: |
+      pwd
+    displayName: 'Print Working Directory'
 
   - script: |
+      cat package.json
       echo "Author: $(Build.SourceVersionAuthor)"
       author_email=$(git log -1 --format='%ae' $(Build.SourceVersion))
       echo "Author Email: $author_email"
@@ -32,12 +32,14 @@ jobs:
       git add .
       if [ -n "$(git status --porcelain)" ]; then
         git commit -m "Bump version [skip ci]"
+        git push origin HEAD:main
       else
         echo "No changes to commit."
       fi
-    displayName: 'Commit version bump'
+      cat package.json
+    displayName: 'Commit, Push, and Debug'
 
-  # - task: PublishBuildArtifacts@1
-  #   inputs:
-  #     pathtoPublish: '$(Build.SourcesDirectory)'
-  #     artifactName: 'dist'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     pathtoPublish: 'dist'
+#     artifactName: 'drop'

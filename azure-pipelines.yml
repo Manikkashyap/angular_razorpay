@@ -37,7 +37,7 @@ jobs:
       fi
     displayName: 'Commit version bump'
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.SourcesDirectory)'
-      artifactName: 'dist'
+  # - task: PublishBuildArtifacts@1
+  #   inputs:
+  #     pathtoPublish: '$(Build.SourcesDirectory)'
+  #     artifactName: 'dist'

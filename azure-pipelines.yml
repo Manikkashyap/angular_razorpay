@@ -26,14 +26,21 @@ jobs:
   - script: |
       echo "Author: $(Build.SourceVersionAuthor)"
       echo "Author Email: $(Build.SourceVersionAuthorEmail)"
-      git config --global user.email "$(Build.SourceVersionAuthorEmail)"
-      git config --global user.name "$(Build.SourceVersionAuthor)"
+      git config --global user.email "$2"
+      git config --global user.name "$1"
       git add .
       git commit -m "Bump version [skip ci]"
     displayName: 'Commit version bump'
-    env:
-      BUILD_SOURCEVERSIONAUTHOR: $(Build.SourceVersionAuthor)
-      BUILD_SOURCEVERSIONAUTHOREMAIL: $(Build.SourceVersionAuthorEmail)
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "Author: $1"
+        echo "Author Email: $2"
+        git config --global user.email "$2"
+        git config --global user.name "$1"
+        git add .
+        git commit -m "Bump version [skip ci]"
+      arguments: '$(Build.SourceVersionAuthor) "$(Build.SourceVersionAuthorEmail)"'
 
   - task: PublishBuildArtifacts@1
     inputs:

@@ -20,10 +20,8 @@ steps:
     displayName: 'Package.JSON before build'
   
   - script: |
-      npm install -g @angular/cli@17.x
-      npm install --force
-      ng build
-    displayName: 'npm install and build'
+      npm version $(major).$(minor)$(Rev:.r) --no-git-tag-version
+    displayName: 'update version'
 
   - script: cat package.json
     displayName: 'Package.JSON after build'

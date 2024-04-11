@@ -24,7 +24,7 @@ steps:
     displayName: 'App Version'
 
   - script: |
-      npm version $(appVersion) --no-git-tag-version
+      npm version "$(Rev:r)" --no-git-tag-version
     displayName: 'npm install, update version, and build'
 
   - script: cat package.json

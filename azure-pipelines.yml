@@ -7,9 +7,19 @@ variables:
    minor: 1
 name: $(major).$(minor)$(Rev:.r)
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: NodeTool@0
+  input: 
+    versionSpec: 18.X
+  displayName: 'Install Node.js 18.x'
+
+- script: cat package.json
+  displayName: 'Package.JSON before build'
+  
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    npm install -g @angular/cli@16.x
+    npm install --force
+    ng build
+  displayName: 'npm install and build'
+
+- script: cat package.json
+  displayName: 'Package.JSON after build'

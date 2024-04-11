@@ -1,25 +1,29 @@
 trigger:
-- main
+  - main
+
 pool:
   vmImage: 'ubuntu-latest'
+
 variables:
-   major: 1
-   minor: 1
+  major: 1
+  minor: 1
+
 name: $(major).$(minor)$(Rev:.r)
+
 steps:
-- task: NodeTool@0
-  input: 
-    versionSpec: 18.X
-  displayName: 'Install Node.js 18.x'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js 18.x'
 
-- script: cat package.json
-  displayName: 'Package.JSON before build'
+  - script: cat package.json
+    displayName: 'Package.JSON before build'
   
-- script: |
-    npm install -g @angular/cli@16.x
-    npm install --force
-    ng build
-  displayName: 'npm install and build'
+  - script: |
+      npm install -g @angular/cli@17.x
+      npm install --force
+      ng build
+    displayName: 'npm install and build'
 
-- script: cat package.json
-  displayName: 'Package.JSON after build'
+  - script: cat package.json
+    displayName: 'Package.JSON after build'

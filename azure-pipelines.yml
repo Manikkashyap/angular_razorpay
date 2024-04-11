@@ -3,30 +3,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 variables:
-   major: 2
-   minor: 0
-stages:
-- stage:
-  displayName: Build_Branch_Version_Number # update 
-  condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
-  jobs:
-  - job: Build_Branch_Version_Number
-    variables:
-       brpatch: $[counter(variables['build.sourcebranchname'], 0)]
-    steps:
-      - bash: |
-           echo "##vso[build.updatebuildnumber]$(major).$(minor)-$(Build.SourceBranchName).$(brpatch)"
-        condition: ne(variables['Build.Reason'], 'PullRequest')
-        name: SetBranchBuildName
-- stage: Build_Steps
-  displayName: Build_Steps
-  jobs:  
-  - job: Build_Steps
-    displayName: Build_Steps
-    steps:
-    - script: echo Hello, world!
-      name: 'Run_a_one_line_script'
-    - script: |
-          echo Add other tasks to build, test, and deploy your project.
-          echo See https://aka.ms/yaml
-      name: 'Run_a_multi_line_cript'
+   major: 1
+   minor: 1
+name: $(major).$(minor)$(Rev:.r)
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'

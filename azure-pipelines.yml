@@ -7,8 +7,9 @@ pool:
 variables:
   major: 1
   minor: 1
+  appVersion: '$(major).$(minor).$(Rev:r)'
 
-name: $(major).$(minor).$(Rev:r)
+name: $(appVersion)
 
 steps:
   - task: NodeTool@0
@@ -20,7 +21,7 @@ steps:
     displayName: 'Package.JSON before build'
   
   - script: |
-      npm version $(major).$(minor).$(Rev:r) --no-git-tag-version
+      npm version $(appVersion) --no-git-tag-version
     displayName: 'npm install, update version, and build'
 
   - script: cat package.json

@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private razorpayService: RazorpayService) { }
 
   ngOnInit(): void {
-    this.initiatePayment();
+    this.initiatePayment(); // test
   }
 
   initiatePayment() {

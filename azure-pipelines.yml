@@ -1,51 +1,15 @@
 trigger:
 - main
-
 pool:
   vmImage: 'ubuntu-latest'
-
-jobs:
-- job: BuildAndCommit
-  displayName: 'Build and Commit'
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-      checkLatest: true
-
-  - script: |
-      npm install
-      npm run build
-    displayName: 'npm install and build'
-
-  - script: |
-      echo "Contents of package.json before prebuild:"
-      cat package.json
-    displayName: 'Debug: Before Prebuild'
-
-  - script: |
-      npm version patch --no-git-tag-version
-    displayName: 'npm version patch (prebuild)'
-
-  - script: |
-      echo "Contents of package.json after prebuild:"
-      cat package.json
-    displayName: 'Debug: After Prebuild'
-
-  - task: DownloadSecureFile@1
-    inputs:
-      secureFile: 'github-pat.txt'  # Use the correct name of the PAT file uploaded
-    displayName: 'Download PAT'
-
-  - script: |
-      git config --global user.email "Manikkashyap@users.noreply.github.com"
-      git config --global user.name "ManikKashyap"
-      git config --global credential.helper "store --file=$(Agent.TempDirectory)/github-pat.txt"
-      git add .
-      if [ -n "$(git status --porcelain)" ]; then
-        git commit -m "Bump version [skip ci]"
-        git push origin HEAD:main
-      else
-        echo "No changes to commit."
-      fi
-    displayName: 'Commit and Push'
+variables:
+   major: 1
+   minor: 1
+name: $(major).$(minor)$(Rev:.r)
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'

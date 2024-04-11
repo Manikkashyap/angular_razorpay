@@ -19,7 +19,10 @@ steps:
 
   - script: cat package.json
     displayName: 'Package.JSON before build'
-  
+
+  - script: cat $(appVersion)
+    displayName: 'App Version'
+
   - script: |
       npm version $(appVersion) --no-git-tag-version
     displayName: 'npm install, update version, and build'

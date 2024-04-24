@@ -22,8 +22,6 @@ steps:
     # increment the patch version by 1
     # create a version commit and tag 
     # use [skip ci] in the commit message to skip from triggering the ci pipeline
-    $latestVersion = (Get-Content 'package.json' | ConvertFrom-Json).version
-    Write-Host "Latest version of the package is: $latestVersion"
     npm version $latestVersion -f -m "bump version [skip ci]"
     # push back to azure git repo
     git push origin HEAD:$(Build.SourceBranchName) -q

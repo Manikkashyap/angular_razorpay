@@ -1,18 +1,32 @@
-name: Update Version
-
-on:
-  push:
-    branches:
+trigger:
+  branches:
+    include:
       - main
 
-jobs:
-  update_version:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Update version
-        run: |
-          npm version patch
-          git push --follow-tags
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    # Update version in package.json
+    npm version patch
+    git push --follow-tags
+  displayName: 'Update Version'
+
+- script: |
+    # Install dependencies and build Angular app
+    npm install
+    npm run build -- --prod
+  displayName: 'Build Angular App'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/dist'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'

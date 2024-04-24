@@ -7,16 +7,24 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- checkout: self
 
-- script: |
+- checkout: self
+  persistCredentials: true   #Leave the OAuth token in the Git config in order to run git push commands in following powershell task
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- powershell: |
     git config --global user.email "Manikkashyap@users.noreply.github.com"
     git config --global user.name "ManikKashyap"
-    git fetch origin main:refs/remotes/origin/main
-    git checkout -b main --track origin/main || git checkout main
-    npm version patch
-    git push --follow-tags
-  displayName: 'Update Version'
+    # increment the patch version by 1
+    # create a version commit and tag 
+    # use [skip ci] in the commit message to skip from triggering the ci pipeline.
+    npm version patch -f -m "bump version [skip ci]"
+    # push back to azure git repo
+    git push origin HEAD:$(Build.SourceBranchName) -q
 
 - script: |
     npm install

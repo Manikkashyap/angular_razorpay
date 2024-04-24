@@ -1,27 +1,18 @@
-trigger:
-  - main
+name: Update Version
 
-pool:
-  vmImage: 'ubuntu-latest'
+on:
+  push:
+    branches:
+      - main
 
-variables:
-  major: 1
-  minor: 1
-
-name: $(major).$(minor)$(Rev:.r)
-
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-    displayName: 'Install Node.js 18.x'
-
-  - script: cat package.json
-    displayName: 'Package.JSON before build'
-
-  - script: |
-      npm version "$(major).$(minor).$(Rev:r)" --no-git-tag-version
-    displayName: 'npm install, update version, and build'
-
-  - script: cat package.json
-    displayName: 'Package.JSON after build'
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Update version
+        run: |
+          npm version patch
+          git push --follow-tags

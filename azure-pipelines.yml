@@ -28,7 +28,7 @@ steps:
 
 - script: |
     npm install
-    npm run build -- --prod
+    npm run build
   displayName: 'Build Angular App'
 
 - task: CopyFiles@2

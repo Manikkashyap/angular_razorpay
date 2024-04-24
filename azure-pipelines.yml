@@ -15,7 +15,6 @@ steps:
     git fetch origin main:refs/remotes/origin/main
     git checkout -b main --track origin/main || git checkout main
     npm version patch
-    git remote set-url origin https://username:TOKEN@github.com/Manikkashyap/angular_razorpay.git
     git push --follow-tags
   displayName: 'Update Version'
 

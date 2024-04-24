@@ -11,7 +11,7 @@ export class RazorpayService {
 
   initiatePayment(amount: number, orderId: string) {
     const options = {
-      amount: amount * 100,  // amount in smallest currency unit (e.g. cents)
+      amount: amount * 100,  // amount in smallest currency unit 
       currency: 'INR',
       order_id: orderId,
       key_id: 'rzp_test_F6F7kwhZ6Uzz2j',

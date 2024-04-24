@@ -8,13 +8,13 @@ pool:
 
 steps:
 - script: |
-    # Update version in package.json
+    git config --global user.email "Manikkashyap@users.noreply.github.com"
+    git config --global user.name "ManikKashyap"
     npm version patch
     git push --follow-tags
   displayName: 'Update Version'
 
 - script: |
-    # Install dependencies and build Angular app
     npm install
     npm run build -- --prod
   displayName: 'Build Angular App'

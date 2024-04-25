@@ -26,7 +26,7 @@ steps:
 #     # push back to azure git repo
 #     git push origin HEAD:$(Build.SourceBranchName) -q
 
-- script: |
+- powershell: |
     # Get the current version
     currentVersion=$(npm version --parse current)
 

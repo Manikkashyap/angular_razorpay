@@ -27,11 +27,19 @@ steps:
     # git push origin HEAD:$(Build.SourceBranchName) -q
     
 
-    # Use pre-built functions for versioning
-    newVersion=$(Build.IncrementVersion Build.SourceBranchName)
-    echo "New version after increment: $newVersion"
+    # Install az CLI if not already available (adapt for your agent OS)
+    # For Linux/macOS:
+    # curl -L https://aka.ms/install-azure-cli-linux | bash
+    # For Windows:
+    # Invoke-Expression [System.Net.WebClient]::new().DownloadString('https://aka.ms/install-azure-cli-windows')
 
-    # Create a version commit and tag with the new version
+    # Use az pipelines variable group to get the current branch name
+    currentBranchName = (az pipelines variable-group list --name buildVariables -format json | ConvertFrom-Json).variables.Build.SourceBranchName
+
+    # Increment version based on branch name (replace with your logic)
+    newVersion = "$(currentBranchName)-$(Build.BuildNumber)"  # Example version format
+
+    # Create version commit and tag
     git config --global user.name "Azure Pipelines (Automated)"  # Set user.name dynamically (optional)
     git tag -a "$newVersion" -m "Bump version to $newVersion [skip ci]"
     git push origin --tags

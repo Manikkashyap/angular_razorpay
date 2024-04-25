@@ -17,32 +17,14 @@ steps:
   displayName: 'Install Node.js'
 
 - powershell: |
-    # git config --global user.email "Manikkashyap@users.noreply.github.com"
-    # git config --global user.name "ManikKashyap"
-    # # increment the patch version by 1
-    # # create a version commit and tag 
-    # # use [skip ci] in the commit message to skip from triggering the ci pipeline
-    # npm version patch -f -m "bump version [skip ci]"
-    # # push back to azure git repo
-    # git push origin HEAD:$(Build.SourceBranchName) -q
-    
-
-    # Install az CLI if not already available (adapt for your agent OS)
-    # For Linux/macOS:
-    # curl -L https://aka.ms/install-azure-cli-linux | bash
-    # For Windows:
-    # Invoke-Expression [System.Net.WebClient]::new().DownloadString('https://aka.ms/install-azure-cli-windows')
-
-    # Use az pipelines variable group to get the current branch name
-    currentBranchName = (az pipelines variable-group list --name buildVariables -format json | ConvertFrom-Json).variables.Build.SourceBranchName
-
-    # Increment version based on branch name (replace with your logic)
-    newVersion = "$(currentBranchName)-$(Build.BuildNumber)"  # Example version format
-
-    # Create version commit and tag
-    git config --global user.name "Azure Pipelines (Automated)"  # Set user.name dynamically (optional)
-    git tag -a "$newVersion" -m "Bump version to $newVersion [skip ci]"
-    git push origin --tags
+    git config --global user.email "Manikkashyap@users.noreply.github.com"
+    git config --global user.name "ManikKashyap"
+    # increment the patch version by 1
+    # create a version commit and tag 
+    # use [skip ci] in the commit message to skip from triggering the ci pipeline
+    npm version patch -f -m "bump version [skip ci]"
+    # push back to azure git repo
+    git push origin HEAD:$(Build.SourceBranchName) -q
 
 - script: |
     npm install

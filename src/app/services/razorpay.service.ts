@@ -38,7 +38,7 @@ export class RazorpayService {
         address: 'Your Address'
       },
       handler: (response: any) => {
-        console.log('response', response);
+        console.log('success response', response);
         // Handle payment success
       }
     };

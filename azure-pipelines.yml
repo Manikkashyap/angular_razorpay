@@ -18,7 +18,8 @@ steps:
 
 - powershell: |
     git config --global user.email "Manikkashyap@users.noreply.github.com"
-    git config --global user.name "ManikKashyap"
+    git config --global user.name "$(GIT_USER_NAME)"
+    echo "userName: "$(GIT_USER_NAME)""
     # increment the patch version by 1
     # create a version commit and tag 
     # use [skip ci] in the commit message to skip from triggering the ci pipeline

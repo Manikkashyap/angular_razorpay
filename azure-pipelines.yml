@@ -16,15 +16,29 @@ steps:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
 
-- powershell: |
-    git config --global user.email "$(GIT_USER_EMAIL)"
-    git config --global user.name "$(GIT_USER_NAME)"
-    # increment the patch version by 1
-    # create a version commit and tag 
-    # use [skip ci] in the commit message to skip from triggering the ci pipeline
-    npm version patch -f -m "bump version [skip ci]"
-    # push back to azure git repo
-    git push origin HEAD:$(Build.SourceBranchName) -q
+# - powershell: |
+#     git config --global user.email "$(GIT_USER_EMAIL)"
+#     git config --global user.name "$(GIT_USER_NAME)"
+#     # increment the patch version by 1
+#     # create a version commit and tag 
+#     # use [skip ci] in the commit message to skip from triggering the ci pipeline
+#     npm version patch -f -m "bump version [skip ci]"
+#     # push back to azure git repo
+#     git push origin HEAD:$(Build.SourceBranchName) -q
+
+- script: |
+  # Get the current version
+  currentVersion=$(npm version --parse current)
+
+  # Increment the patch version
+  newVersion=$(npm version patch -f)
+
+  # Create a version commit and tag with the new version and current version in the message
+  git config --global user.email "$(GIT_USER_EMAIL)"
+  git config --global user.name "$(GIT_USER_NAME)"
+  git tag -a "$newVersion" -m "Bump version from $currentVersion to $newVersion [skip ci]"
+  git push origin --tags
+
 
 - script: |
     npm install

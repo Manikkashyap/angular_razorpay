@@ -8,8 +8,8 @@ pool:
 
 steps:
 
-# - checkout: self
-#   persistCredentials: true   #Leave the OAuth token in the Git config in order to run git push commands in following powershell task
+- checkout: self
+  persistCredentials: true   #Leave the OAuth token in the Git config in order to run git push commands in following powershell task
 
 - task: NodeTool@0
   inputs:

@@ -17,7 +17,6 @@ steps:
   displayName: 'Install Node.js'
 
 - powershell: |
-    echo "userEmail: $(GIT_USER_EMAIL)"
     git config --global user.email "$(GIT_USER_EMAIL)"
     git config --global user.name "$(GIT_USER_NAME)"
     # increment the patch version by 1

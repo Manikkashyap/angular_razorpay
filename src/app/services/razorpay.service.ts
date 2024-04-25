@@ -31,7 +31,6 @@ export class RazorpayService {
       modal: {
         ondismiss: () => {
           console.log('Payment cancelled');
-          // Handle payment cancellation
         }
       },
       notes: {
